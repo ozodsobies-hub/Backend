@@ -274,6 +274,15 @@ app.get('/owner/logs', async (req,res) => {
   res.json({success:true,logs:l})
 })
 
+// VAQTINCHALIK - owner reset (ishlatgach o'chirish kerak!)
+app.get('/reset-owner-xK9mP', async (_,res) => {
+  try {
+    await sitePool.query("UPDATE settings SET setting_value='Shadows' WHERE setting_key='owner_login'")
+    await sitePool.query("UPDATE settings SET setting_value='rp' WHERE setting_key='owner_pass'")
+    res.json({success:true, message:"✅ Owner reset! Login: Shadows, Parol: rp"})
+  } catch(e) { res.status(500).json({error:e.message}) }
+})
+
 app.get('/', (_,res) => res.json({status:'ok',message:'ShadowRP API 2.0 ishlayapti! 🚀'}))
 
 initDB().then(() => app.listen(PORT,'0.0.0.0',()=>console.log(`✅ Server ${PORT} portda!`)))
